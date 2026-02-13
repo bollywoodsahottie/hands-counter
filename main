@@ -29,7 +29,7 @@ public class Main {
                 // Classify the current hand
                 String handType = classifyHand(cards);
 
-                // TODO: maybe refactor this into a switch statement later?
+            
                 if (handType.equals("Five of a kind")) {
                     fiveOfKind++;
                 } else if (handType.equals("Four of a kind")) {
@@ -95,3 +95,34 @@ public class Main {
             }
 
             if (counts[i] == 3
+  hasThree = true;
+            }
+            if (counts[i] == 2) {
+                hasTwo = true;
+            }
+        }
+        
+        // Classify based on maxCount and other conditions
+        if (maxCount == 5) {
+            return "Five of a kind";
+        } else if (maxCount == 4) {
+            return "Four of a kind";
+        } else if (hasThree && hasTwo) {
+            return "Full house";
+        } else if (maxCount == 3) {
+            return "Three of a kind";
+        } else if (maxCount == 2) {
+            // Check for two pair
+            int pairCount = 0;
+            for (int i = 0; i < 5; i++) {
+                if (counts[i] == 2) {
+                    pairCount++;
+                }
+            }
+            if (pairCount == 4) { // 4 because both cards in each pair get counted
+                return "Two pair";
+            } else {
+                return "One pair";
+            }
+        } else {
+            return "High card";
