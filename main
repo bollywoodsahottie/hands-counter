@@ -1,3 +1,4 @@
+```java
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -6,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
      
-        // Initialize counters for each hand type
+        // counters for each hand type
         int fiveOfKind = 0;
         int fourOfKind = 0;
         int fullHouse = 0;
@@ -19,14 +20,14 @@ public class Main {
             File file = new File("src/hands.txt");
             Scanner scanner = new Scanner(file);
 
-            // Read through each line in the file
+            // go through each line
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split("\\|");
                 String hand = parts[0];
                 String[] cards = hand.split(",");
 
-                // Classify the current hand
+                // figure out what hand this is
                 String handType = classifyHand(cards);
 
             
@@ -49,7 +50,7 @@ public class Main {
 
             scanner.close();
 
-            // Print results - note the order isn't consistent with poker rankings but whatever
+            // print results
             System.out.println("Number of five of a kind hands: " + fiveOfKind);
             System.out.println("Number of full house hands: " + fullHouse);
             System.out.println("Number of four of a kind hands: " + fourOfKind);
@@ -63,11 +64,11 @@ public class Main {
         }
     }
 
-    // This method determines what type of hand we're dealing with
+    // figure out what type of hand we have
     public static String classifyHand(String[] cards) {
         int[] counts = new int[5];
 
-        // Count occurrences of each card
+        // count how many times each card shows up
         for (int i = 0; i < 5; i++) {
             int count = 0;
             for (int j = 0; j < 5; j++) {
@@ -78,7 +79,7 @@ public class Main {
             counts[i] = count;
         }
 
-        // Figure out the maximum count and check for pairs/three of a kind
+        // find the max count and check for pairs and stuff
         int maxCount = 0;
         int pairs = 0;
         boolean hasThree = false;
@@ -89,20 +90,20 @@ public class Main {
                 maxCount = counts[i];
             }
 
-            // Check for pairs - this logic might be a bit off but seems to work
+            // check for pairs
             if (counts[i] == 2 && i < 4 && cards[i].equals(cards[i+1])) {
                 pairs++;
             }
 
-            if (counts[i] == 3
-  hasThree = true;
+            if (counts[i] == 3) {
+                hasThree = true;
             }
             if (counts[i] == 2) {
                 hasTwo = true;
             }
         }
         
-        // Classify based on maxCount and other conditions
+        // figure out what hand we have based on the counts
         if (maxCount == 5) {
             return "Five of a kind";
         } else if (maxCount == 4) {
@@ -112,17 +113,21 @@ public class Main {
         } else if (maxCount == 3) {
             return "Three of a kind";
         } else if (maxCount == 2) {
-            // Check for two pair
+            // need to check if its one pair or two pair
             int pairCount = 0;
             for (int i = 0; i < 5; i++) {
                 if (counts[i] == 2) {
                     pairCount++;
                 }
             }
-            if (pairCount == 4) { // 4 because both cards in each pair get counted
+            if (pairCount == 4) {
                 return "Two pair";
             } else {
                 return "One pair";
             }
         } else {
             return "High card";
+        }
+    }
+}
+```
